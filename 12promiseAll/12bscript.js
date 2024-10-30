@@ -33,7 +33,7 @@ function deletePost() {
 }
 
 Promise.all([createPost({ title: 'POST5', body: 'This is POST5' }), updateLastUserActivityTime()])
-    .then(([createPostResult, lastActivityTimeResult]) => {
+    .then(([_, lastActivityTimeResult]) => {
         console.log('Posts:', posts);
         console.log('Last Activity Time:', lastActivityTimeResult);
         return deletePost();
