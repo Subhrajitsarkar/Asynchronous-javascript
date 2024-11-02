@@ -45,3 +45,21 @@ Promise.all([createPost({ title: 'POST5', body: 'This is POST5' }), updateLastUs
     .catch((error) => {
         console.log(error);
     });
+
+async function managePosts() {
+    try {
+        const [_, lastActivityTimeResult] = await Promise.all([createPost({ title: 'POST5', body: 'This is POST5' }), updateLastUserActivityTime()]);
+        console.log('Posts:', posts);
+        console.log('Last Activity Time:', lastActivityTimeResult);
+
+        const deletedPost = await deletePost();
+
+        console.log('Deleted Post:', deletedPost.title);
+        console.log('Remaining Posts:', posts);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+managePosts();

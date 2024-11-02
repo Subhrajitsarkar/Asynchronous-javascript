@@ -17,14 +17,13 @@
         <label for="number">Number</label>
         <input type="number" name="number" id="number" required>
 
-        <!-- Hidden field to store the index for updating a specific user -->
         <input type="hidden" id="index" value="">
         <button type="submit">Submit</button>
     </form>
     <ul id="hello"></ul>
 
     <script>
-        const API_URL = "https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData"; // Full API URL
+        const API_URL = "https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData";
 
         function saveDetails(event) {
             event.preventDefault();
@@ -32,77 +31,71 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const number = document.getElementById('number').value;
-            const index = document.getElementById('index').value; // Hidden index value for edit mode
-
-            // The API itself is managing the storage of the data, and it inherently handles the array structure, that's why we don't need to write array,previously when we are storing it on localstorage, we are creating array for storing data
+            const index = document.getElementById('index').value;
             const obj = { name, email, number };
 
             if (index === '') {
-                // Create operation (POST): Adding a new user
                 axios.post("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData", obj)
                     .then(response => {
                         console.log('User added:', response.data);
                         document.getElementById('userForm').reset();
-                        displayDetails(); // Refresh the list of users
+                        displayDetails();
                     })
                     .catch(error => console.error('Error adding user:', error));
             } else {
-                // Update operation (PUT): Update the existing user by ID
                 axios.put("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData/" + index, obj)
+                    //index: This variable holds the unique ID of the user object you want to update.
                     .then(response => {
                         console.log('User updated:', response.data);
                         document.getElementById('userForm').reset();
-                        document.getElementById('index').value = ''; // Reset index for future new entries
-                        displayDetails(); // Refresh the list of users
+                        document.getElementById('index').value = '';
+                        displayDetails();
                     })
                     .catch(error => console.error('Error updating user:', error));
             }
         }
 
         function displayDetails() {
-            // Fetch all users (GET)
             axios.get("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData")
                 .then(response => {
                     const userDetails = response.data;
                     const show = document.getElementById('hello');
-                    show.innerHTML = ''; // Clear the previous list
+                    show.innerHTML = '';
 
                     userDetails.forEach(user => {
                         show.innerHTML +=
                             `<li>${user.name} - ${user.email} - ${user.number}
                                 <button onclick="editDetails('${user._id}')">Edit</button>
                                 <button onclick="deleteDetails('${user._id}')">Delete</button>
-                            </li>`; //[{"_id":"6712a868a0a8cd03e818aeb6","name":"sona","email":"subhrajit28sarkar@gmail.com","number":"2"},{...},{...}]
+                            </li>`;
                     });
                 })
                 .catch(error => console.error('Error fetching users:', error));
         }
 
         function deleteDetails(id) {
-            // Delete operation (DELETE): Remove user by ID
             axios.delete("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData/" + id)
                 .then(response => {
                     console.log('User deleted:', response.data);
-                    displayDetails(); // Refresh the list of users
+                    displayDetails();
                 })
                 .catch(error => console.error('Error deleting user:', error));
         }
 
         function editDetails(id) {
-            // Fetch specific user details for editing (GET)
             axios.get("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData/" + id)
                 .then(response => {
                     const user = response.data;
                     document.getElementById('name').value = user.name;
                     document.getElementById('email').value = user.email;
                     document.getElementById('number').value = user.number;
-                    document.getElementById('index').value = id; // Store the ID for updating the user later
+                    document.getElementById('index').value = id;
                 })
                 .catch(error => console.error('Error fetching user details:', error));
         }
 
         function loading() {
-            displayDetails(); // Load user data on page load
+            displayDetails();
         }
         window.onload = loading;
     </script>
