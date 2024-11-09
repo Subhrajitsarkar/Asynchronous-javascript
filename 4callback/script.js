@@ -35,7 +35,7 @@ function getPosts() {
     setTimeout(() => {
         let output = '';
         posts.forEach((post) => {
-            output += `<li>${post.title} - Created at: ${post.createdAt}</li>`;
+            output += `<li>${post.title} - body is: ${post.body} - Created at: ${post.createdAt}</li>`;
         });
         document.body.innerHTML = output;
     }, 1000);
