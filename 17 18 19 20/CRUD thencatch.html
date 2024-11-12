@@ -37,7 +37,7 @@
             if (index === '') {
                 axios.post("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData", obj)
                     .then(response => {
-                        console.log('User added:', response.data);
+                        console.log('User added:', response.data); //.data is commonly used when working with API responses, particularly in frameworks and libraries like Axios.  It holds the actual response data (payload) received from the server.
                         document.getElementById('userForm').reset();
                         displayDetails();
                     })
@@ -58,7 +58,8 @@
         function displayDetails() {
             axios.get("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData")
                 .then(response => {
-                    const userDetails = response.data;
+                    const userDetails = response.data;  // Server returns array of users.
+                    //[{name: "John", email: "john@email.com", number: "1234", _id: "abc123"}, ...]
                     const show = document.getElementById('hello');
                     show.innerHTML = '';
 
@@ -76,7 +77,13 @@
         function deleteDetails(id) {
             axios.delete("https://crudcrud.com/api/e1a22c827f1e4268971ba72f0d3167bd/appointmentData/" + id)
                 .then(response => {
-                    console.log('User deleted:', response.data);
+                    // Now I can log the full response
+                    console.log('Full Response:', response);
+
+                    // I can also log specific parts of the response
+                    console.log('Status:', response.status);
+                    console.log('Response Data:', response.data);
+                    console.log('Headers:', response.headers);
                     displayDetails();
                 })
                 .catch(error => console.error('Error deleting user:', error));

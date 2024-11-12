@@ -86,6 +86,17 @@
             try {
                 // Delete operation (DELETE): Remove user by full URL
                 await axios.delete("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + id);
+                // // Store the response in a variable
+                // const response = await axios.delete("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + id);
+
+                // // Now I can log the full response
+                // console.log('Full Response:', response);
+
+                // // I can also log specific parts of the response
+                // console.log('Status:', response.status);
+                // console.log('Response Data:', response.data);
+                // console.log('Headers:', response.headers);
+
                 console.log('User deleted');
                 displayDetails(); // Refresh the list of users
 
