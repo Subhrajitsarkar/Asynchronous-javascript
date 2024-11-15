@@ -6,6 +6,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management with CRUD (Axios & Async/Await)</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Axios CDN -->
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #555;
+        }
+
+        form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        ul li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        ul li button:hover {
+            background-color: #ff3d3d;
+        }
+
+        ul li button:nth-child(1) {
+            background-color: #ffa502;
+            margin-right: 5px;
+        }
+
+        ul li button:nth-child(1):hover {
+            background-color: #ff8500;
+        }
+
+        .centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,7 +134,7 @@
     <ul id="hello"></ul>
 
     <script>
-        const API_URL = "https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData"; // Full API URL
+        const API_URL = "https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData"; // Full API URL
 
         // Function to handle saving or updating user details
         async function saveDetails(event) {
@@ -40,13 +150,13 @@
             try {
                 if (index === '') {
                     // Create operation (POST): Adding a new user
-                    const response = await axios.post("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData", obj);
+                    const response = await axios.post("https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData", obj);
                     console.log('User added:', response.data);
                     //User added: {name: 'sona', email: 'sona@abc.com', number: '4', _id: '6712030ca0a8cd03e818ade1'}
 
                 } else {
                     // Update operation (PUT): Update the existing user by full URL
-                    const response = await axios.put("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + index, obj);
+                    const response = await axios.put("https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData/" + index, obj);
                     console.log('User updated:', response.data);
                     document.getElementById('index').value = ''; // Reset index for future new entries
                 }
@@ -63,14 +173,14 @@
         async function displayDetails() {
             try {
                 // Fetch all users (GET)
-                const response = await axios.get("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData");
+                const response = await axios.get("https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData");
                 const userDetails = response.data;
                 const show = document.getElementById('hello');
                 show.innerHTML = ''; // Clear the previous list
 
                 userDetails.forEach(user => {
                     show.innerHTML +=
-                        `<li>${user.name} - ${user.email} - ${user.number}
+                        `<li>${user.name}  ${user.email}  ${user.number}
                             <button onclick="editDetails('${user._id}')">Edit</button>
                             <button onclick="deleteDetails('${user._id}')">Delete</button>
                         </li>`;
@@ -85,7 +195,7 @@
         async function deleteDetails(id) {
             try {
                 // Delete operation (DELETE): Remove user by full URL
-                await axios.delete("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + id);
+                await axios.delete("https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData/" + id);
                 // // Store the response in a variable
                 // const response = await axios.delete("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + id);
 
@@ -109,7 +219,7 @@
         async function editDetails(id) {
             try {
                 // Fetch specific user details for editing (GET)
-                const response = await axios.get("https://crudcrud.com/api/91e1735a024345d698d6442da6cf6052/appointmentData/" + id);
+                const response = await axios.get("https://crudcrud.com/api/f76c1fe6ec1742be8fab025175600e7b/appointmentData/" + id);
                 const user = response.data;
                 document.getElementById('name').value = user.name;
                 document.getElementById('email').value = user.email;
